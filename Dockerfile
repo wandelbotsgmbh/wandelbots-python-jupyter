@@ -24,7 +24,15 @@ COPY --from=builder ${VIRTUAL_ENV} ${VIRTUAL_ENV}
 WORKDIR /app
 COPY . .
 
-COPY static/app_icon.png /app/static/app_icon.png
+RUN apt-get update
+RUN apt-get install -y nginx gettext-base
+
+
+COPY static/app_icon.png /app/app_icon.png
+
+COPY nginx.conf.template /etc/nginx/conf.d/default.conf.template
 
 # Start Jupyter Notebook
-ENTRYPOINT ["sh", "-c", "jupyter lab --ip=0.0.0.0 --port=3000 --no-browser --allow-root --NotebookApp.base_url=$BASE_PATH --NotebookApp.token='' --NotebookApp.password='' --NotebookApp.extra_static_paths=/app/static --NotebookApp.default_url='/lab/tree/examples/notebook.ipynb' & sleep infinity"]
+# ENTRYPOINT ["sh", "-c", "export FLASK_APP=flask_app.py && flask run --host=0.0.0.0 --port=3000 & jupyter lab --ip=0.0.0.0 --port=3001 --no-browser --allow-root --NotebookApp.base_url=$BASE_PATH --NotebookApp.token='' --NotebookApp.password='' --NotebookApp.extra_static_paths=/app/static --NotebookApp.default_url='/lab/tree/examples/notebook.ipynb' & sleep infinity"]
+# ENTRYPOINT ["sh", "-c", "jupyter lab --ip=0.0.0.0 --port=3000 --no-browser --allow-root --NotebookApp.base_url=$BASE_PATH --NotebookApp.token='' --NotebookApp.password='' --NotebookApp.extra_static_paths=/app/static --NotebookApp.default_url='/lab/tree/examples/notebook.ipynb' & sleep infinity"]
+ENTRYPOINT ["sh", "-c", "envsubst '${BASE_PATH}' < /etc/nginx/conf.d/default.conf.template > /etc/nginx/conf.d/default.conf && nginx & jupyter lab --ip=0.0.0.0 --port=3000 --no-browser --allow-root --NotebookApp.base_url=$BASE_PATH --NotebookApp.token='' --NotebookApp.password='' --NotebookApp.extra_static_paths=/app/static --NotebookApp.default_url='/lab/tree/examples/notebook.ipynb' & sleep infinity"]
