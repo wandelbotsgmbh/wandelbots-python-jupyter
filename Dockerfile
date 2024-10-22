@@ -1,5 +1,5 @@
 # https://medium.com/@albertazzir/blazing-fast-python-docker-builds-with-poetry-a78a66f5aed0
-FROM python:3.9-buster as builder
+FROM python:3.9-buster AS builder
 
 RUN pip install --upgrade pip \
     && pip install poetry==1.8.3
@@ -15,7 +15,7 @@ COPY pyproject.toml poetry.lock ./
 
 RUN --mount=type=cache,target=$POETRY_CACHE_DIR poetry install --without dev --no-root
 
-FROM python:3.9-slim-buster as runtime
+FROM python:3.9-slim-buster AS runtime
 
 ENV VIRTUAL_ENV=/app/.venv \
     PATH="/app/.venv/bin:$PATH"
