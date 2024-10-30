@@ -1,0 +1,27 @@
+# todo this image is not working properly
+#   nginx is not properly serving the icon and jupyter fails to load
+# https://jupyter-docker-stacks.readthedocs.io/en/latest/using/selecting.html#jupyter-docker-stacks-foundation
+# todo we probably do not want to have latest here
+FROM quay.io/jupyter/base-notebook:latest
+
+USER root
+# we need nginx only to provide the app_icon.png
+RUN apt-get update && apt-get install -y nginx gettext-base
+
+RUN pip install --no-cache-dir 'wandelbots>=0.3.3' 'python-dotenv>=0.19.0' && \
+    fix-permissions "${CONDA_DIR}" && \
+    fix-permissions "/home/${NB_USER}"
+
+COPY nginx.conf.template /etc/nginx/conf.d/default.conf.template
+COPY static/app_icon.png /app/app_icon.png
+
+# https://jupyter-docker-stacks.readthedocs.io/en/latest/using/common.html
+COPY start_gateway.sh /usr/local/bin/before-notebook.d/start_gateway.sh
+RUN sudo chmod +x /usr/local/bin/before-notebook.d/start_gateway.sh
+
+ENV NOTEBOOK_ARGS="--ip=0.0.0.0 --no-browser --allow-root --NotebookApp.token='' --NotebookApp.password=''"
+ENV JUPYTER_PORT=3000
+
+#USER ${NB_UID}
+
+ENTRYPOINT ["sh", "-c", "start-notebook.py", "--NotebookApp.base_url=$BASE_PATH"]
