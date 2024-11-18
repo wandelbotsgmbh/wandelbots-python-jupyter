@@ -1,5 +1,5 @@
 # https://medium.com/@albertazzir/blazing-fast-python-docker-builds-with-poetry-a78a66f5aed0
-FROM python:3.9-buster AS builder
+FROM python:3.11-bookworm AS builder
 
 RUN pip install --upgrade pip \
     && pip install poetry==1.8.3
@@ -15,7 +15,7 @@ COPY pyproject.toml poetry.lock ./
 
 RUN --mount=type=cache,target=$POETRY_CACHE_DIR poetry install --without dev --no-root
 
-FROM python:3.9-slim-buster AS runtime
+FROM python:3.11-slim-bookworm AS runtime
 
 ENV VIRTUAL_ENV=/app/.venv \
     PATH="/app/.venv/bin:$PATH"
@@ -30,6 +30,4 @@ COPY nginx.conf.template /etc/nginx/conf.d/default.conf.template
 COPY examples/ .
 
 # Start Jupyter Notebook
-# ENTRYPOINT ["sh", "-c", "export FLASK_APP=flask_app.py && flask run --host=0.0.0.0 --port=3000 & jupyter lab --ip=0.0.0.0 --port=3001 --no-browser --allow-root --NotebookApp.base_url=$BASE_PATH --NotebookApp.token='' --NotebookApp.password='' --NotebookApp.extra_static_paths=/app/static --NotebookApp.default_url='/lab/tree/examples/notebook.ipynb' & sleep infinity"]
-# ENTRYPOINT ["sh", "-c", "jupyter lab --ip=0.0.0.0 --port=3000 --no-browser --allow-root --NotebookApp.base_url=$BASE_PATH --NotebookApp.token='' --NotebookApp.password='' --NotebookApp.extra_static_paths=/app/static --NotebookApp.default_url='/lab/tree/examples/notebook.ipynb' & sleep infinity"]
 ENTRYPOINT ["sh", "-c", "envsubst '${BASE_PATH}' < /etc/nginx/conf.d/default.conf.template > /etc/nginx/conf.d/default.conf && nginx & jupyter lab --ip=0.0.0.0 --port=3000 --no-browser --allow-root --NotebookApp.base_url=$BASE_PATH --NotebookApp.token='' --NotebookApp.password='' --NotebookApp.extra_static_paths=/app/static --NotebookApp.default_url='/lab/tree/examples/notebook.ipynb' & sleep infinity"]
