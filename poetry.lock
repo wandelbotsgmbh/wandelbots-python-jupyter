@@ -3053,13 +3053,13 @@ zstd = ["zstandard (>=0.18.0)"]
 
 [[package]]
 name = "wandelbots-api-client"
-version = "24.9.0rc3"
+version = "24.10.0"
 description = "Wandelbots Python Client: Interact with robots in an easy and intuitive way."
 optional = false
 python-versions = "<4.0,>=3.9"
 files = [
-    {file = "wandelbots_api_client-24.9.0rc3-py3-none-any.whl", hash = "sha256:8494adac80937dbb536c484779b9d56e007b26e2e6d1bd5fc5c6dd046fc0b2de"},
-    {file = "wandelbots_api_client-24.9.0rc3.tar.gz", hash = "sha256:b11f9e8743d32bf7ef6f44da88dd4d0bad968b740e10b1541c2634ecf64ced9d"},
+    {file = "wandelbots_api_client-24.10.0-py3-none-any.whl", hash = "sha256:11e55ae647456edbdda02a1e006f343ea675db07d8aeb331d5319f9205fe7972"},
+    {file = "wandelbots_api_client-24.10.0.tar.gz", hash = "sha256:3819ab8cabdd6c823cc8ced19959f58de89f5871027be1845aa49e5d04d7123b"},
 ]
 
 [package.dependencies]
@@ -3077,13 +3077,13 @@ websockets = "*"
 
 [[package]]
 name = "wandelbots-nova"
-version = "0.4.0"
+version = "0.5.0"
 description = "Official Python SDK for the Wandelbots"
 optional = false
 python-versions = "<4.0,>=3.10"
 files = [
-    {file = "wandelbots_nova-0.4.0-py3-none-any.whl", hash = "sha256:4c269af6a4d6a275e391f93e0fafdd9622f70d652a505698ec2ba05c1937eaa8"},
-    {file = "wandelbots_nova-0.4.0.tar.gz", hash = "sha256:9783a89e052be821e6ac01c5633b43e9cd69d96b9e4bdb6d08ca7fb6b1d533ce"},
+    {file = "wandelbots_nova-0.5.0-py3-none-any.whl", hash = "sha256:db5882c231bf97c07847806bfcfc4f6216a5aea36b7996894ccc80059b974706"},
+    {file = "wandelbots_nova-0.5.0.tar.gz", hash = "sha256:094090256f2cc524a9f65e445fff8d502178cdb7dc6428cf0f568001d5cf9b33"},
 ]
 
 [package.dependencies]
@@ -3093,7 +3093,7 @@ numpy = ">=2.1.3,<3.0.0"
 pydantic = ">=2.10.3,<3.0.0"
 python-decouple = ">=3.8,<4.0"
 scipy = ">=1.14.1,<2.0.0"
-wandelbots_api_client = "24.9.0rc3"
+wandelbots_api_client = "24.10.0"
 websockets = ">=14.1.0,<15.0.0"
 
 [[package]]
@@ -3364,4 +3364,4 @@ propcache = ">=0.2.0"
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "2a24cddb5a3f6bd53fab9518afccebae0b9813eb3a7c53207759aec127ecc384"
+content-hash = "fde67ea41f98810049e3ebe961d1fe55324c51b2f14c7231c7376da055676bd8"
