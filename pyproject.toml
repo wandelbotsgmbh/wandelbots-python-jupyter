@@ -12,11 +12,11 @@ authors = [
 python = "^3.10"
 jupyter = "^1.0.0"
 python-dotenv = "^0.19.0"
-wandelbots-nova = "^0.2.2"
+wandelbots-nova = "^0.4.0"
 flask = "^3.0.3"
 
 [tool.poetry.group.dev.dependencies]
-ruff = "^0.8.2"
+ruff = "^0.8.6"
 
 [build-system]
 requires = ["poetry-core"]
